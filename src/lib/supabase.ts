@@ -58,7 +58,7 @@ export const signOut = async () => {
 // Test connection helper
 export const testConnection = async () => {
   try {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('nonexistent_table')
       .select('*')
       .limit(1)
