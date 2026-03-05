@@ -22,6 +22,7 @@ export default function TimelineGame({ puzzle, onGameComplete }: Props) {
   const [attempts, setAttempts] = useState(0)
   const [timeElapsed, setTimeElapsed] = useState(0)
   const [startTime, setStartTime] = useState<number | null>(null)
+  const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
 
   // Handle mounting to prevent hydration errors
   useEffect(() => {
@@ -97,22 +98,28 @@ export default function TimelineGame({ puzzle, onGameComplete }: Props) {
 
   // Check if solution is correct
   const checkSolution = () => {
-    const isCorrect = photos.every((photo, index) => {
-      const correctOrder = puzzle.photos.sort((a, b) => 
-        new Date(a.actual_date).getTime() - new Date(b.actual_date).getTime()
-      )
-      return photo.id === correctOrder[index].id
-    })
+    const correctOrder = [...puzzle.photos].sort((a, b) =>
+      new Date(a.actual_date).getTime() - new Date(b.actual_date).getTime()
+    )
+
+    const isCorrect = photos.every((photo, index) => photo.id === correctOrder[index].id)
 
     setAttempts(prev => prev + 1)
 
     if (isCorrect) {
-      const finalScore = Math.max(100 - (attempts * 10) - timeElapsed, 10)
+      const nextAttempts = attempts + 1
+      const finalScore = Math.max(100 - (nextAttempts * 10) - timeElapsed, 10)
       setScore(finalScore)
       onGameComplete?.(finalScore)
-      alert(`Congratulations! You solved it in ${attempts + 1} attempts and ${timeElapsed} seconds. Score: ${finalScore}`)
+      setFeedback({
+        type: 'success',
+        message: `You solved it in ${nextAttempts} attempts and ${timeElapsed} seconds. Score: ${finalScore}.`
+      })
     } else {
-      alert(`Not quite right! Try again. (Attempt ${attempts + 1})`)
+      setFeedback({
+        type: 'error',
+        message: `Not quite right yet. Adjust the order and try again (attempt ${attempts + 1}).`
+      })
     }
   }
 
@@ -209,6 +216,18 @@ export default function TimelineGame({ puzzle, onGameComplete }: Props) {
             ✅ Check My Answer
           </Button>
         </div>
+
+        {feedback && (
+          <div
+            className={`mt-4 p-3 rounded-lg text-sm ${
+              feedback.type === 'success'
+                ? 'bg-emerald-50 border border-emerald-200 text-emerald-800'
+                : 'bg-amber-50 border border-amber-200 text-amber-800'
+            }`}
+          >
+            {feedback.message}
+          </div>
+        )}
       </CardContent>
     </Card>
   )

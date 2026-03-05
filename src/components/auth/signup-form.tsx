@@ -3,7 +3,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -19,6 +19,9 @@ export function SignUpForm() {
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
   const router = useRouter()
+  const searchParams = useSearchParams()
+
+  const redirectTo = searchParams.get('redirect') || '/create'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -40,9 +43,9 @@ export function SignUpForm() {
         setError(error.message)
       } else if (data.user) {
         setSuccess(true)
-        // Redirect to create page after successful signup
+        // Redirect to intended page (defaults to create flow) after successful signup
         setTimeout(() => {
-          router.push('/create')
+          router.push(redirectTo)
         }, 2000)
       }
     } catch (err) {

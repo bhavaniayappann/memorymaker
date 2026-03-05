@@ -4,34 +4,34 @@ import { Card, CardContent } from '@/components/ui/card'
 
 const FEATURES = [
   {
-    icon: '🎮',
-    title: '12+ Interactive Games',
-    description: 'Timeline puzzles, scavenger hunts, trivia, memory games, and creative tools',
+    icon: '🕒',
+    title: 'Timeline Puzzle Game',
+    description: 'Turn a handful of photos into an interactive challenge to see who remembers your story best.',
   },
   {
-    icon: '⚡',
-    title: 'Ready in 30 Minutes',
-    description: 'Simple drag-and-drop interface gets your app ready faster than making dinner',
+    icon: '📷',
+    title: 'Built Around Your Memories',
+    description: 'Each puzzle is powered by your own photos, dates, and captions — no stock content here.',
   },
   {
     icon: '📱',
-    title: 'Works on Any Device',
-    description: 'Share via link - no app store downloads needed. Works on phones, tablets, and computers',
+    title: 'Share via Simple Link',
+    description: 'Send a link over text or email. Your partner can play instantly on their phone, tablet, or laptop.',
   },
   {
     icon: '💝',
-    title: 'Share via Link',
-    description: 'Send your creation through text, email, or QR code. Recipients can play instantly',
+    title: 'Perfect for Special Moments',
+    description: 'Anniversaries, birthdays, long‑distance surprises, or just because — make ordinary days feel cinematic.',
   },
   {
-    icon: '🎨',
-    title: 'Personalize Everything',
-    description: 'Add your photos, videos, voice messages, and custom content to make it uniquely yours',
+    icon: '✨',
+    title: 'Delightful, Not Complicated',
+    description: 'A guided 3‑step flow keeps creation simple so you can focus on the memories, not the tech.',
   },
   {
-    icon: '🏆',
-    title: 'Occasion Templates',
-    description: 'Pre-designed templates for anniversaries, birthdays, graduations, and special moments',
+    icon: '🔒',
+    title: 'Private by Default',
+    description: 'Your puzzles are tied to your account and only accessible to people you share the link or code with.',
   },
 ]
 
@@ -46,7 +46,7 @@ export function FeaturesSection() {
             What Makes MemoryMaker Special
           </h2>
           <p className="text-xl text-text-secondary max-w-2xl mx-auto">
-            Everything you need to create meaningful, interactive experiences for the people you love
+            A focused, joyful way to turn your relationship memories into a small interactive moment they&apos;ll remember.
           </p>
         </div>
 
@@ -83,7 +83,7 @@ export function FeaturesSection() {
               Ready to Create Something Amazing?
             </h3>
             <p className="text-text-secondary mb-6">
-              Join thousands of people who've created unforgettable experiences for their loved ones
+              Start with one timeline puzzle today — it only takes a few minutes to create something they&apos;ll talk about for weeks.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <div className="flex items-center justify-center space-x-2">

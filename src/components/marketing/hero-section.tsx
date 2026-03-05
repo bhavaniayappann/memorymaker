@@ -18,25 +18,25 @@ export function HeroSection() {
 
           {/* Main Headline */}
           <h1 className="text-4xl md:text-6xl font-bold text-text-primary mb-6">
-            Create{' '}
+            Turn Your Love Story Into a{' '}
             <span className="bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text text-transparent">
-              Love Stories
+              Timeline Game
             </span>
           </h1>
 
           {/* Subheadline */}
           <p className="text-xl md:text-2xl text-text-secondary mb-8 max-w-3xl mx-auto leading-relaxed">
-            Build interactive apps with games for your special someone in minutes.
-            No coding required.
+            Upload your favorite photos and we turn them into a playful, drag-and-drop
+            timeline challenge for your partner. No coding required.
           </p>
 
           {/* Feature Pills */}
           <div className="flex flex-wrap justify-center gap-4 mb-10">
             <div className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-primary-200">
-              <span className="text-primary-600 font-medium">🎮 12+ Interactive Games</span>
+              <span className="text-primary-600 font-medium">🕒 Timeline Puzzle Game</span>
             </div>
             <div className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-success-200">
-              <span className="text-success-600 font-medium">⚡ Ready in 30 Minutes</span>
+              <span className="text-success-600 font-medium">⚡ Ready to share in minutes</span>
             </div>
             <div className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-accent-200">
               <span className="text-accent-600 font-medium">📱 Works on Any Device</span>
