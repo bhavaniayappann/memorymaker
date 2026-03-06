@@ -48,7 +48,7 @@ export function SignUpForm() {
           router.push(redirectTo)
         }, 2000)
       }
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred')
     } finally {
       setLoading(false)

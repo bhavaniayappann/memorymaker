@@ -2,10 +2,10 @@
 
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import type { PublicPuzzle } from '@/types/database'
+import type { PublicPuzzle, PublicPhoto } from '@/types/database'
 
 interface Props {
   puzzle: PublicPuzzle
@@ -16,9 +16,10 @@ export default function TimelineGame({ puzzle, onGameComplete }: Props) {
   // Critical: Track if component has mounted to prevent hydration mismatch
   const [isMounted, setIsMounted] = useState(false)
   const [gameStarted, setGameStarted] = useState(false)
-  const [photos, setPhotos] = useState<any[]>([])
+  const [photos, setPhotos] = useState<
+    Array<PublicPhoto & { currentPosition: number; correctPosition: number }>
+  >([])
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null)
-  const [score, setScore] = useState(0)
   const [attempts, setAttempts] = useState(0)
   const [timeElapsed, setTimeElapsed] = useState(0)
   const [startTime, setStartTime] = useState<number | null>(null)
@@ -63,7 +64,6 @@ export default function TimelineGame({ puzzle, onGameComplete }: Props) {
     setGameStarted(true)
     setStartTime(Date.now()) // Safe: only runs on user interaction
     setAttempts(0)
-    setScore(0)
   }
 
   // Handle drag start

@@ -39,7 +39,7 @@ export function SignInForm() {
         // Redirect to intended page (defaults to create flow)
         router.push(redirectTo)
       }
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred')
     } finally {
       setLoading(false)
@@ -143,7 +143,7 @@ export function SignInForm() {
 
           {/* Sign Up Link */}
           <p className="text-center text-sm text-text-secondary">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <Link href="/auth/signup" className="text-primary-500 hover:text-primary-600 font-medium">
               Sign Up
             </Link>

@@ -214,7 +214,7 @@ export default function PuzzlePage({ params }: Props) {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {puzzle.photos.map((photo, index) => (
+                {puzzle.photos.map((photo) => (
                   <div key={photo.id} className="group">
                     <div className="aspect-square bg-gray-200 rounded-lg overflow-hidden mb-3 shadow-sm group-hover:shadow-md transition-shadow duration-200">
                       <img

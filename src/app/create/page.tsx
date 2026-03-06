@@ -11,8 +11,10 @@ import { createTimelinePuzzle, addPhotosToTimeline } from '@/lib/database'
 import { uploadPhotos, validateImageFile } from '@/lib/storage'
 import type { CreatePuzzleData, CreatePhotoData } from '@/types/database'
 
+import type { User } from '@supabase/supabase-js'
+
 export default function CreatePuzzlePage() {
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
   const [creating, setCreating] = useState(false)
   const [step, setStep] = useState(1) // 1: Details, 2: Photos, 3: Preview

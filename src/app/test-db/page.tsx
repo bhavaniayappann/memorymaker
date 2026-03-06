@@ -131,12 +131,12 @@ export default function DatabaseTestPage() {
               </Button>
             </div>
 
-            {connectionStatus === 'connected' && (
-              <div className="text-sm text-text-secondary">
-                ℹ️ Note: Creating puzzles requires user authentication. 
-                We'll build the auth flow next!
-              </div>
-            )}
+              {connectionStatus === 'connected' && (
+                <div className="text-sm text-text-secondary">
+                  ℹ️ Note: Creating puzzles requires user authentication. 
+                  We&apos;ll build the auth flow next!
+                </div>
+              )}
             
           </CardContent>
         </Card>
