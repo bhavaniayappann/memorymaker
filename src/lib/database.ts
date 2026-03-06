@@ -204,7 +204,7 @@ export async function saveGameResult(result: GameResult): Promise<DatabaseResult
 // 7. TEST DATABASE CONNECTION
 export async function testDatabaseConnection(): Promise<DatabaseResult<string>> {
   try {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('timeline_puzzles')
       .select('count')
       .limit(1)

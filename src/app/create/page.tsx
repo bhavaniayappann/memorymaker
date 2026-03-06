@@ -11,11 +11,14 @@ import { createTimelinePuzzle, addPhotosToTimeline } from '@/lib/database'
 import { uploadPhotos, validateImageFile } from '@/lib/storage'
 import type { CreatePuzzleData, CreatePhotoData } from '@/types/database'
 
+import type { User } from '@supabase/supabase-js'
+
 export default function CreatePuzzlePage() {
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
   const [creating, setCreating] = useState(false)
   const [step, setStep] = useState(1) // 1: Details, 2: Photos, 3: Preview
+  const [successShareCode, setSuccessShareCode] = useState<string | null>(null)
   const router = useRouter()
 
   // Form state
@@ -31,7 +34,7 @@ export default function CreatePuzzlePage() {
     const checkAuth = async () => {
       const { data: { user }, error } = await supabase.auth.getUser()
       if (error || !user) {
-        router.push('/auth/signin')
+        router.push('/auth/signin?redirect=/create&reason=auth-required')
         return
       }
       setUser(user)
@@ -101,6 +104,7 @@ export default function CreatePuzzlePage() {
   const handleCreatePuzzle = async () => {
     setCreating(true)
     setError(null)
+    setSuccessShareCode(null)
 
     try {
       // Step 1: Create the puzzle record
@@ -146,9 +150,12 @@ export default function CreatePuzzlePage() {
         return
       }
 
-      // Success! Show share options
-      alert(`Puzzle created successfully! Share code: ${puzzle.share_code}`)
-      router.push(`/puzzle/${puzzle.share_code}`)
+      // Success! Show share options in-page
+      setSuccessShareCode(puzzle.share_code)
+      // Reset form for next puzzle
+      setStep(1)
+      setPuzzleData({ title: '', description: '' })
+      setPhotos([])
       
     } catch (err) {
       console.error('Create puzzle error:', err)
@@ -183,6 +190,41 @@ export default function CreatePuzzlePage() {
             Upload photos and create an interactive timeline game
           </p>
         </div>
+
+        {/* Success Message */}
+        {successShareCode && (
+          <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-lg">
+            <h2 className="font-semibold text-emerald-800 mb-1">
+              Puzzle created successfully!
+            </h2>
+            <p className="text-sm text-emerald-700 mb-2">
+              Share this code with your partner so they can play your timeline game:
+            </p>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+              <code className="px-3 py-2 rounded-md bg-white border border-emerald-200 text-emerald-900 font-mono text-sm">
+                {successShareCode}
+              </code>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => {
+                  if (typeof window !== 'undefined') {
+                    const shareUrl = `${window.location.origin}/puzzle/${successShareCode}`
+                    navigator.clipboard?.writeText(shareUrl)
+                  }
+                }}
+              >
+                Copy share link
+              </Button>
+              <Button
+                type="button"
+                onClick={() => router.push(`/puzzle/${successShareCode}`)}
+              >
+                Open puzzle
+              </Button>
+            </div>
+          </div>
+        )}
 
         {/* Progress Indicator */}
         <div className="flex justify-center mb-8">
@@ -288,125 +330,6 @@ export default function CreatePuzzlePage() {
                   </p>
                 </label>
               </div>
-              <Card className="mb-4 bg-yellow-50">
-  <CardContent className="p-4">
-    <h3 className="font-bold mb-2">🔍 Debug Info</h3>
-    // Add this button to your debug section
-<button 
-  className="bg-purple-500 text-white px-4 py-2 rounded mr-2"
-  onClick={async () => {
-    console.log('🔍 Testing full create flow...')
-    
-    // Test Step 1: Create puzzle (same as working debug)
-    const puzzleData = {
-      title: 'Full Flow Test',
-      description: 'Testing complete flow',
-      photos: [] // Empty for now
-    }
-    
-    const puzzleResult = await createTimelinePuzzle(puzzleData)
-    console.log('🔍 Puzzle creation result:', puzzleResult)
-    
-    if (puzzleResult.error) {
-      console.log('❌ Puzzle creation failed:', puzzleResult.error)
-      return
-    }
-    
-    if (!puzzleResult.data) {
-      console.log('❌ No puzzle data returned')
-      return
-    }
-    
-    const puzzleId = puzzleResult.data.id
-    console.log('✅ Puzzle created with ID:', puzzleId)
-    
-    // Test Step 2: Add a simple photo record (no file upload)
-    const testPhotoData = [{
-      image_url: 'https://example.com/test.jpg',
-      actual_date: '2024-01-01',
-      caption: 'Test photo'
-    }]
-    
-    console.log('🔍 Adding photos to puzzle:', puzzleId)
-    const photosResult = await addPhotosToTimeline(puzzleId, testPhotoData)
-    console.log('🔍 Photos result:', photosResult)
-  }}
->
-  Test Full Flow
-</button>
-// Add this to your debug section
-<button 
-  className="bg-orange-500 text-white px-4 py-2 rounded mr-2"
-  onClick={async () => {
-    console.log('🔍 Testing file upload...')
-    
-    // Create a fake file for testing
-    const fakeFile = new File(['test content'], 'test.jpg', { type: 'image/jpeg' })
-    console.log('🔍 Created test file:', fakeFile.name, fakeFile.type)
-    
-    // Test upload to storage
-    const fileName = `test-user/test-puzzle/${Date.now()}.jpg`
-    console.log('🔍 Uploading to:', fileName)
-    
-    const { data, error } = await supabase.storage
-      .from('timeline-photos')
-      .upload(fileName, fakeFile)
-    
-    console.log('🔍 Storage upload result:', { data, error })
-    
-    if (error) {
-      console.log('❌ Storage error details:', error)
-    }
-    
-    if (data) {
-      console.log('✅ File uploaded successfully:', data.path)
-      
-      // Test getting public URL
-      const { data: urlData } = supabase.storage
-        .from('timeline-photos')
-        .getPublicUrl(fileName)
-      
-      console.log('🔍 Public URL:', urlData.publicUrl)
-    }
-  }}
->
-  Test Storage
-</button>
-// Add this button to your debug section
-<button 
-  className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
-  onClick={async () => {
-    console.log('🔍 Checking database for puzzles...')
-    
-    const { data: puzzles, error } = await supabase
-      .from('timeline_puzzles')
-      .select('*')
-      .order('created_at', { ascending: false })
-    
-    console.log('🔍 All puzzles:', puzzles)
-    console.log('🔍 Puzzles error:', error)
-    
-    if (puzzles && puzzles.length > 0) {
-      const latestPuzzle = puzzles[0]
-      console.log('🔍 Latest puzzle:', latestPuzzle)
-      console.log('🔍 Share code:', latestPuzzle.share_code)
-      console.log('🔍 Published?', latestPuzzle.is_published)
-      
-      // Check photos for this puzzle
-      const { data: photos, error: photoError } = await supabase
-        .from('timeline_photos')
-        .select('*')
-        .eq('puzzle_id', latestPuzzle.id)
-      
-      console.log('🔍 Photos for latest puzzle:', photos)
-      console.log('🔍 Photos error:', photoError)
-    }
-  }}
->
-  Check Database
-</button>
-  </CardContent>
-</Card>
               {/* Photo List */}
               {photos.length > 0 && (
                 <div className="space-y-4">

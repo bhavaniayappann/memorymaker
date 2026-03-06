@@ -9,31 +9,32 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // MemoryMaker Brand Colors (extracted from logo)
+        // MemoryMaker Brand Colors (extracted from your logo)
         brand: {
-          // Navy/Dark Blue (main background)
+          // Navy/Dark Blue (main background from logo)
           navy: '#2D3561',
           'navy-dark': '#1E2442',
           'navy-light': '#3A4270',
           
-          // Coral/Pink (primary accent)
+          // Coral/Pink (heart colors from logo)
           coral: '#FF7B94',
           'coral-light': '#FF9FB0',
           'coral-dark': '#E55C78',
           
-          // Golden Yellow (secondary accent)
+          // Golden Yellow (accent from logo)
           gold: '#FFD93D',
           'gold-light': '#FFE066',
           'gold-dark': '#E5C135',
           
-          // Soft Pink/Rose
+          // Soft Pink/Rose (gift box from logo)
           pink: '#FFB5C1',
           'pink-light': '#FFCDD5',
           'pink-dark': '#E59CAD',
           
-          // Additional Brand Colors
+          // Professional backgrounds
           cream: '#FFF8F0',
           'warm-white': '#FEFCF8',
+          'professional-gray': '#F8FAFC',
         },
         
         // Semantic Color System

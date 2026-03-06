@@ -54,7 +54,7 @@ export function DemoCards() {
             See What You Can Create
           </h2>
           <p className="text-xl text-text-secondary max-w-2xl mx-auto">
-            Get inspired by these examples and imagine what you'll build for your loved ones
+            Get inspired by these examples and imagine what you&apos;ll build for your loved ones
           </p>
         </div>
 

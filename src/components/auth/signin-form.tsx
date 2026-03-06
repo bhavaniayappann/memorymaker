@@ -3,7 +3,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -17,6 +17,10 @@ export function SignInForm() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
+  const searchParams = useSearchParams()
+
+  const redirectTo = searchParams.get('redirect') || '/create'
+  const authReason = searchParams.get('reason')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -32,10 +36,10 @@ export function SignInForm() {
       if (error) {
         setError(error.message)
       } else if (data.user) {
-        // Redirect to create page for puzzle creation
-        router.push('/create')
+        // Redirect to intended page (defaults to create flow)
+        router.push(redirectTo)
       }
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred')
     } finally {
       setLoading(false)
@@ -53,6 +57,12 @@ export function SignInForm() {
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           
+          {authReason === 'auth-required' && (
+            <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg text-blue-800 text-sm">
+              Please sign in to create your timeline puzzle.
+            </div>
+          )}
+
           {error && (
             <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
               {error}
@@ -133,7 +143,7 @@ export function SignInForm() {
 
           {/* Sign Up Link */}
           <p className="text-center text-sm text-text-secondary">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <Link href="/auth/signup" className="text-primary-500 hover:text-primary-600 font-medium">
               Sign Up
             </Link>

@@ -17,7 +17,7 @@ export async function uploadPhoto(
     const fileName = `${userId}/${puzzleId}/${Date.now()}.${fileExt}`
 
     // Upload to Supabase Storage
-    const { data, error } = await supabase.storage
+    const { error } = await supabase.storage
       .from(BUCKET_NAME)
       .upload(fileName, file, {
         cacheControl: '3600',
@@ -92,10 +92,7 @@ export async function deletePhoto(filePath: string): Promise<boolean> {
 }
 
 // Get optimized image URL with transformations
-export function getOptimizedImageUrl(
-  originalUrl: string, 
-  options?: { width?: number; height?: number; quality?: number }
-): string {
+export function getOptimizedImageUrl(originalUrl: string): string {
   // Supabase doesn't have built-in image transformations like Cloudinary
   // For now, return original URL. In future, we can add image processing
   return originalUrl
