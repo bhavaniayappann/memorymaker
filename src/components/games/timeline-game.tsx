@@ -109,7 +109,6 @@ export default function TimelineGame({ puzzle, onGameComplete }: Props) {
     if (isCorrect) {
       const nextAttempts = attempts + 1
       const finalScore = Math.max(100 - (nextAttempts * 10) - timeElapsed, 10)
-      setScore(finalScore)
       onGameComplete?.(finalScore)
       setFeedback({
         type: 'success',

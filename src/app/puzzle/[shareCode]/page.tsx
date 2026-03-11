@@ -10,13 +10,9 @@ import type { PublicPuzzle } from '@/types/database'
 import TimelineGame from '@/components/games/timeline-game'
 import Header from '@/components/layout/header'
 
-interface Props {
-  params: {
-    shareCode: string
-  }
-}
-
-export default function PuzzlePage({ params }: Props) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default function PuzzlePage(props: any) {
+  const { params } = props as { params: { shareCode: string } }
   const [puzzle, setPuzzle] = useState<PublicPuzzle | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
