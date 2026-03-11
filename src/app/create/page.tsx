@@ -125,6 +125,11 @@ export default function CreatePuzzlePage() {
       const puzzleId = puzzle.id
 
       // Step 2: Upload photos to storage
+      if (!user) {
+        setError('Your session expired. Please sign in again and retry.')
+        return
+      }
+
       const files = photos.map(photo => photo.file)
       const uploadResult = await uploadPhotos(files, user.id, puzzleId, (completed, total) => {
         // You could show upload progress here
